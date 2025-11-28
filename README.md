@@ -135,3 +135,4 @@ window.location.href = 'https://apps.apple.com/your-app';
 
 © 2025 REMXD. All rights reserved.
 
+# Force rebuild
