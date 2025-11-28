@@ -19,8 +19,6 @@ body {
     line-height: 1.6;
     color: #ffffff !important;
     background-color: #000000 !important;
-    overflow: hidden !important;
-    height: 100vh !important;
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -76,7 +74,7 @@ h1, h2, h3 {
 /* Hero Section */
 .hero {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -132,7 +130,11 @@ h1, h2, h3 {
 
 /* Mission Section */
 .mission {
-    display: none;
+    padding: 8rem 0;
+    background-color: #000000;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .section-title {
@@ -158,7 +160,11 @@ h1, h2, h3 {
 
 /* Contact Section */
 .contact {
-    display: none;
+    padding: 8rem 0;
+    background-color: #000000;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .contact .section-title {
@@ -229,8 +235,6 @@ h1, h2, h3 {
     background-color: #000000;
     padding: 3rem 0;
     color: #ffffff;
-    position: fixed;
-    bottom: 0;
     width: 100%;
 }
 
