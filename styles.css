@@ -17,10 +17,12 @@
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
-    color: #ffffff;
-    background-color: #000000;
-    overflow: hidden;
-    height: 100vh;
+    color: #ffffff !important;
+    background-color: #000000 !important;
+    overflow: hidden !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 h1, h2, h3 {
@@ -45,16 +47,16 @@ h1, h2, h3 {
 }
 
 .logo {
-    font-size: 6rem;
-    font-weight: 700;
-    color: #10e4ea;
-    text-decoration: none;
-    letter-spacing: 0.3em;
-    font-family: 'Playfair Display', serif;
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    text-shadow: 0 0 8px rgba(18, 230, 234, 0.5);
+    font-size: 6rem !important;
+    font-weight: 700 !important;
+    color: #10e4ea !important;
+    text-decoration: none !important;
+    letter-spacing: 0.3em !important;
+    font-family: 'Playfair Display', serif !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 3rem !important;
+    text-shadow: 0 0 8px rgba(18, 230, 234, 0.5) !important;
 }
 
 .logo-image {
@@ -94,11 +96,11 @@ h1, h2, h3 {
 }
 
 .hero-title {
-    font-size: 8rem;
-    color: #ffffff;
-    margin-bottom: 2rem;
-    font-weight: 400;
-    letter-spacing: 0.1em;
+    font-size: 8rem !important;
+    color: #ffffff !important;
+    margin-bottom: 2rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.1em !important;
 }
 
 .hero-subtitle {
