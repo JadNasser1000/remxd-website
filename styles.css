@@ -37,7 +37,7 @@ h1, h2, h3 {
 /* Navigation */
 .navbar {
     background-color: transparent;
-    padding: 5rem 0 2rem 8rem;
+    padding: 1.5rem 0 1rem 2rem;
     position: fixed;
     width: 100%;
     top: 0;
@@ -45,7 +45,7 @@ h1, h2, h3 {
 }
 
 .logo {
-    font-size: 6rem !important;
+    font-size: 1.5rem !important;
     font-weight: 700 !important;
     color: #10e4ea !important;
     text-decoration: none !important;
@@ -53,12 +53,12 @@ h1, h2, h3 {
     font-family: 'Playfair Display', serif !important;
     display: flex !important;
     align-items: center !important;
-    gap: 3rem !important;
+    gap: 0.8rem !important;
     text-shadow: 0 0 8px rgba(18, 230, 234, 0.5) !important;
 }
 
 .logo-image {
-    height: 10rem;
+    height: 2.5rem;
     width: auto;
     vertical-align: middle;
 }
@@ -94,26 +94,26 @@ h1, h2, h3 {
 }
 
 .hero-title {
-    font-size: 8rem !important;
+    font-size: 4rem !important;
     color: #ffffff !important;
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.5rem !important;
     font-weight: 400 !important;
     letter-spacing: 0.1em !important;
 }
 
 .hero-subtitle {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: #ffffff;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
     font-weight: 300;
 }
 
 .cta-button {
     background-color: transparent;
     color: #ffffff;
-    border: 3px solid #ffffff;
-    padding: 1.5rem 4rem;
-    font-size: 1.8rem;
+    border: 2px solid #ffffff;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
@@ -130,7 +130,7 @@ h1, h2, h3 {
 
 /* Mission Section */
 .mission {
-    padding: 8rem 0;
+    padding: 4rem 0;
     background-color: #000000;
     opacity: 0;
     transform: translateY(30px);
@@ -138,9 +138,9 @@ h1, h2, h3 {
 }
 
 .section-title {
-    font-size: 4rem;
+    font-size: 2.5rem;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     color: #ffffff;
     font-weight: 500;
 }
@@ -151,7 +151,7 @@ h1, h2, h3 {
 }
 
 .mission-text {
-    font-size: 2rem;
+    font-size: 1.1rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
     color: #ffffff;
@@ -160,7 +160,7 @@ h1, h2, h3 {
 
 /* Contact Section */
 .contact {
-    padding: 8rem 0;
+    padding: 4rem 0;
     background-color: #000000;
     opacity: 0;
     transform: translateY(30px);
@@ -173,8 +173,8 @@ h1, h2, h3 {
 
 .contact-subtitle {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 3rem;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
     color: #ffffff;
 }
 
@@ -190,11 +190,11 @@ h1, h2, h3 {
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 1.5rem;
+    padding: 0.75rem;
     border: 2px solid #ffffff;
     background-color: #000000;
     color: #ffffff;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-family: 'Inter', sans-serif;
     transition: border-color 0.3s ease;
 }
@@ -213,9 +213,9 @@ h1, h2, h3 {
 .submit-button {
     background-color: transparent;
     color: #ffffff;
-    border: 3px solid #ffffff;
-    padding: 1.5rem 3rem;
-    font-size: 1.5rem;
+    border: 2px solid #ffffff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
@@ -233,7 +233,7 @@ h1, h2, h3 {
 /* Footer */
 .footer {
     background-color: #000000;
-    padding: 3rem 0;
+    padding: 2rem 0;
     color: #ffffff;
     width: 100%;
 }
@@ -246,15 +246,15 @@ h1, h2, h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
-    margin-bottom: 3rem;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .footer-links a {
     color: #ffffff;
     text-decoration: none;
     transition: opacity 0.3s ease;
-    font-size: 2.8rem;
+    font-size: 1rem;
     font-weight: 400;
 }
 
@@ -264,14 +264,14 @@ h1, h2, h3 {
 
 .footer-links a:not(:last-child)::after {
     content: "•";
-    margin-left: 2.5rem;
+    margin-left: 1.5rem;
     color: #ffffff;
-    font-size: 2.8rem;
+    font-size: 1rem;
 }
 
 .footer-text {
     color: #ffffff;
-    font-size: 2.2rem;
+    font-size: 0.9rem;
     font-weight: 300;
 }
 
@@ -355,31 +355,35 @@ h1, h2, h3 {
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 4rem;
+        font-size: 2.5rem;
     }
 
     .hero-subtitle {
-        font-size: 1.8rem;
-    }
-
-    .section-title {
-        font-size: 3rem;
-    }
-
-    .mission-text {
-        font-size: 1.5rem;
-    }
-
-    .nav-links {
-        gap: 1.5rem;
-    }
-
-    .nav-links a {
         font-size: 1.2rem;
     }
 
-    .logo {
+    .section-title {
         font-size: 2rem;
+    }
+
+    .mission-text {
+        font-size: 1rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .logo-image {
+        height: 2rem;
     }
 
     .legal-content {
@@ -387,43 +391,51 @@ h1, h2, h3 {
     }
 
     .page-title {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     .footer-links {
-        gap: 2rem;
+        gap: 1rem;
+    }
+
+    .footer-links a {
+        font-size: 0.9rem;
     }
 
     .cta-button {
-        font-size: 1.5rem;
-        padding: 1.2rem 3rem;
+        font-size: 0.9rem;
+        padding: 0.6rem 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
     .hero-subtitle {
-        font-size: 1.5rem;
+        font-size: 1rem;
     }
 
     .logo {
-        font-size: 1.8rem;
+        font-size: 1rem;
+    }
+
+    .logo-image {
+        height: 1.5rem;
     }
 
     .cta-button {
-        padding: 1rem 2.5rem;
-        font-size: 1.3rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
     }
 
     .legal-page {
-        padding: 6rem 1rem 2rem;
+        padding: 4rem 1rem 2rem;
     }
 
     .nav-links a {
-        font-size: 1rem;
+        font-size: 0.85rem;
     }
 }
 
