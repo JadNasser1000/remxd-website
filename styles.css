@@ -5,6 +5,209 @@
     box-sizing: border-box;
 }
 
+/* Dome Gallery Styles (from React component CSS) */
+.sphere-root {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    --radius: 520px;
+    --viewer-pad: 72px;
+    --circ: calc(var(--radius) * 3.14);
+    --rot-y: calc((360deg / var(--segments-x)) / 2);
+    --rot-x: calc((360deg / var(--segments-y)) / 2);
+    --item-width: calc(var(--circ) / var(--segments-x));
+    --item-height: calc(var(--circ) / var(--segments-y));
+    pointer-events: none;
+    background: #000000; /* Black background */
+}
+
+.sphere-root * {
+    box-sizing: border-box;
+}
+
+.sphere,
+.item,
+.item__image {
+    transform-style: preserve-3d;
+}
+
+main.sphere-main {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    background: #000000; /* Black background */
+    pointer-events: auto;
+}
+
+.stage {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    perspective: calc(var(--radius) * 2);
+    perspective-origin: 50% 50%;
+    contain: layout paint size;
+}
+
+.sphere {
+    transform: translateZ(calc(var(--radius) * -1));
+    will-change: transform;
+}
+
+.overlay,
+.overlay--blur {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.overlay {
+    background-image: radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, #060010) 100%);
+}
+
+.overlay--blur {
+    -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+    mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+    backdrop-filter: blur(3px);
+}
+
+.item {
+    width: calc(var(--item-width) * var(--item-size-x));
+    height: calc(var(--item-height) * var(--item-size-y));
+    position: absolute;
+    top: -999px;
+    bottom: -999px;
+    left: -999px;
+    right: -999px;
+    margin: auto;
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+    transition: transform 300ms;
+    transform: rotateY(calc(var(--rot-y) * (var(--offset-x) + ((var(--item-size-x) - 1) / 2)) + var(--rot-y-delta, 0deg)))
+        rotateX(calc(var(--rot-x) * (var(--offset-y) - ((var(--item-size-y) - 1) / 2)) + var(--rot-x-delta, 0deg)))
+        translateZ(var(--radius));
+}
+
+.item__image {
+    position: absolute;
+    display: block;
+    inset: 7px; /* Increased from 5px for more spacing between images */
+    border-radius: var(--tile-radius, 12px);
+    background: transparent;
+    overflow: hidden;
+    backface-visibility: hidden;
+    transition: transform 300ms;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    pointer-events: auto;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.item__image:focus {
+    outline: none;
+}
+
+.item__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    backface-visibility: hidden;
+    filter: var(--image-filter, none);
+}
+
+.viewer {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--viewer-pad);
+}
+
+.viewer .frame {
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--enlarge-radius, 32px);
+    display: flex;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .viewer .frame {
+        height: auto;
+        width: 100%;
+    }
+}
+
+.viewer .scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 500ms ease;
+    backdrop-filter: blur(3px);
+}
+
+.sphere-root[data-enlarging='true'] .viewer .scrim {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.viewer .enlarge {
+    position: absolute;
+    z-index: 30;
+    border-radius: var(--enlarge-radius, 32px);
+    overflow: hidden;
+    transition: transform 500ms ease, opacity 500ms ease;
+    transform-origin: top left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.viewer .enlarge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--image-filter, none);
+}
+
+.sphere-root .enlarge-closing img {
+    filter: var(--image-filter, none);
+}
+
+.edge-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 120px;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, var(--overlay-blur-color, #060010));
+}
+
+.edge-fade--top {
+    top: 0;
+    transform: rotate(180deg);
+}
+
+.edge-fade--bottom {
+    bottom: 0;
+}
+
 :root {
     --primary-color: #000000;
     --secondary-color: #000000;
@@ -14,13 +217,16 @@
     --border-color: #ffffff;
 }
 
-body {
+html, body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     color: #ffffff !important;
-    background-color: #000000 !important;
+    background-color: transparent !important; /* Transparent so dome canvas shows through */
     margin: 0 !important;
     padding: 0 !important;
+    overflow: hidden !important;
+    height: 100vh !important;
+    position: relative;
 }
 
 h1, h2, h3 {
@@ -37,11 +243,19 @@ h1, h2, h3 {
 /* Navigation */
 .navbar {
     background-color: transparent;
-    padding: 1.5rem 0 1rem 2rem;
-    position: fixed;
+    padding: 0.75rem 0 0.5rem 2rem;
     width: 100%;
-    top: 0;
     z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    position: relative; /* Changed to relative so z-index works */
+    z-index: 1000;
+    pointer-events: none; /* Allow dome interaction to pass through */
+}
+
+.navbar * {
+    pointer-events: auto; /* Re-enable pointer events for navbar content */
 }
 
 .logo {
@@ -53,7 +267,7 @@ h1, h2, h3 {
     font-family: 'Playfair Display', serif !important;
     display: flex !important;
     align-items: center !important;
-    gap: 0.8rem !important;
+    gap: 0.6rem !important;
     text-shadow: 0 0 8px rgba(18, 230, 234, 0.5) !important;
 }
 
@@ -73,15 +287,19 @@ h1, h2, h3 {
 
 /* Hero Section */
 .hero {
-    position: relative;
-    min-height: 100vh;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: #000000;
+    background: transparent; /* Changed to transparent so dome shows through */
     overflow: hidden;
-    margin-top: 0;
+    z-index: 10; /* Above canvas */
+    pointer-events: none; /* Allow dome interaction to pass through */
 }
 
 .stars {
@@ -91,50 +309,89 @@ h1, h2, h3 {
 .hero .container {
     position: relative;
     z-index: 1;
+    pointer-events: auto; /* Re-enable pointer events for hero content */
+}
+
+/* Glass pill container for hero text - LIQUID GLASS EFFECT */
+.glass-pill {
+    position: relative;
+    padding: 1.25rem 2rem;
+    border-radius: 100px; /* Increased from 50px for more roundness */
+    isolation: isolate;
+    background-color: rgba(255, 255, 255, 0.25); /* Back to original translucency */
+    color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+    cursor: default;
+}
+
+/* Glass distortion effect layer */
+.glass-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    backdrop-filter: blur(3px);
+    filter: url(#glass-distortion);
+    z-index: -1;
+}
+
+/* Outline shine effect */
+.glass-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 
+        inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+        inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .hero-title {
-    font-size: 4rem !important;
+    font-size: 2.25rem !important;
     color: #ffffff !important;
-    margin-bottom: 1.5rem !important;
-    font-weight: 400 !important;
-    letter-spacing: 0.1em !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.05em !important;
+    text-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.4),
+        0 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    font-family: 'Playfair Display', serif !important;
+}
+
+.hero-mission {
+    font-size: 1.5rem !important; /* Increased from 1.1rem */
+    color: #00ffff !important; /* Bold vibrant cyan */
+    margin: 0 !important;
+    margin-top: 0.4rem !important; /* Reduced margin slightly */
+    font-weight: 600 !important; /* Increased to bold */
+    letter-spacing: 0.08em !important;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(0, 255, 255, 0.6),
+        0 0 40px rgba(0, 255, 255, 0.3); /* Stronger cyan glow */
+    font-family: 'Crimson Text', serif !important; /* Subtle cursive/italic serif font */
+    font-style: italic !important; /* Adds gentle cursive feel */
+    display: block !important;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
-    color: #ffffff;
-    margin-bottom: 2rem;
-    font-weight: 300;
+    display: none;
 }
 
 .cta-button {
-    background-color: transparent;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-family: 'Inter', sans-serif;
-}
-
-.cta-button:hover {
-    background-color: #ffffff;
-    color: #000000;
-    transform: translateY(-2px);
+    display: none;
 }
 
 /* Mission Section */
 .mission {
-    padding: 4rem 0;
-    background-color: #000000;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    display: none;
 }
 
 .section-title {
@@ -160,11 +417,7 @@ h1, h2, h3 {
 
 /* Contact Section */
 .contact {
-    padding: 4rem 0;
-    background-color: #000000;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    display: none;
 }
 
 .contact .section-title {
@@ -232,10 +485,19 @@ h1, h2, h3 {
 
 /* Footer */
 .footer {
-    background-color: #000000;
-    padding: 2rem 0;
+    background-color: transparent; /* Transparent so dome shows through */
+    padding: 0.5rem 0;
     color: #ffffff;
     width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10; /* Above canvas */
+    pointer-events: none; /* Allow dome interaction to pass through */
+}
+
+.footer * {
+    pointer-events: auto; /* Re-enable pointer events for footer content */
 }
 
 .footer-content {
@@ -247,14 +509,14 @@ h1, h2, h3 {
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
 }
 
 .footer-links a {
     color: #ffffff;
     text-decoration: none;
     transition: opacity 0.3s ease;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 400;
 }
 
@@ -266,12 +528,12 @@ h1, h2, h3 {
     content: "•";
     margin-left: 1.5rem;
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 0.75rem;
 }
 
 .footer-text {
     color: #ffffff;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 300;
 }
 
@@ -355,11 +617,7 @@ h1, h2, h3 {
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 2rem;
     }
 
     .section-title {
@@ -410,11 +668,7 @@ h1, h2, h3 {
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 2rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 
     .logo {
