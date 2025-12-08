@@ -184,6 +184,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let draggingRef = false;
     let movedRef = false;
     let inertiaRAF = null;
+    let autoRotateRAF = null;
+    let autoRotateActive = true;
+    const AUTO_ROTATE_SPEED = 0.04; // Degrees per frame - adjust for speed (0.05 = very slow, 0.1 = slow, 0.2 = fast)
     
     const applyTransform = (xDeg, yDeg) => {
         sphereEl.style.transform = `translateZ(calc(var(--radius) * -1)) rotateX(${xDeg}deg) rotateY(${yDeg}deg)`;
@@ -219,6 +222,28 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
     
+    const stopAutoRotate = () => {
+        if (autoRotateRAF) {
+            cancelAnimationFrame(autoRotateRAF);
+            autoRotateRAF = null;
+        }
+    };
+    
+    const startAutoRotate = () => {
+        stopAutoRotate();
+        stopInertia();
+        const step = () => {
+            if (!draggingRef && autoRotateActive) {
+                rotationRef.y = wrapAngleSigned(rotationRef.y + AUTO_ROTATE_SPEED);
+                applyTransform(0, rotationRef.y);
+                autoRotateRAF = requestAnimationFrame(step);
+            } else {
+                autoRotateRAF = null;
+            }
+        };
+        autoRotateRAF = requestAnimationFrame(step);
+    };
+    
     const startInertia = (vx, vy) => {
         const MAX_V = 2.5; // Increased max velocity for faster spins
         let vX = clamp(vx, -MAX_V, MAX_V) * 120; // Increased multiplier for longer spin
@@ -231,10 +256,24 @@ document.addEventListener("DOMContentLoaded", function() {
             vX *= frictionMul;
             if (Math.abs(vX) < stopThreshold) {
                 inertiaRAF = null;
+                // Resume auto-rotation after inertia stops
+                setTimeout(() => {
+                    if (!draggingRef) {
+                        autoRotateActive = true;
+                        startAutoRotate();
+                    }
+                }, 500);
                 return;
             }
             if (++frames > maxFrames) {
                 inertiaRAF = null;
+                // Resume auto-rotation after inertia stops
+                setTimeout(() => {
+                    if (!draggingRef) {
+                        autoRotateActive = true;
+                        startAutoRotate();
+                    }
+                }, 500);
                 return;
             }
             const nextY = wrapAngleSigned(rotationRef.y + vX / 200);
@@ -243,12 +282,16 @@ document.addEventListener("DOMContentLoaded", function() {
             inertiaRAF = requestAnimationFrame(step);
         };
         stopInertia();
+        stopAutoRotate();
+        autoRotateActive = false;
         inertiaRAF = requestAnimationFrame(step);
     };
     
     // Mouse events
     mainEl.addEventListener('mousedown', (e) => {
         stopInertia();
+        stopAutoRotate();
+        autoRotateActive = false;
         draggingRef = true;
         movedRef = false;
         startRotRef = { ...rotationRef };
@@ -277,19 +320,46 @@ document.addEventListener("DOMContentLoaded", function() {
             const vx = clamp((dx / DEFAULTS.dragSensitivity) * 0.04, -2.0, 2.0);
             if (Math.abs(vx) > 0.005) {
                 startInertia(vx, 0);
+            } else {
+                // Resume auto-rotation after a short delay if no inertia
+                setTimeout(() => {
+                    if (!draggingRef && !inertiaRAF) {
+                        autoRotateActive = true;
+                        startAutoRotate();
+                    }
+                }, 500);
             }
+        } else {
+            // Resume auto-rotation if user clicked but didn't drag
+            setTimeout(() => {
+                if (!draggingRef && !inertiaRAF) {
+                    autoRotateActive = true;
+                    startAutoRotate();
+                }
+            }, 500);
         }
         movedRef = false;
     });
     
     mainEl.addEventListener('mouseleave', () => {
-        draggingRef = false;
+        if (draggingRef) {
+            draggingRef = false;
+            // Resume auto-rotation after mouse leaves
+            setTimeout(() => {
+                if (!draggingRef && !inertiaRAF) {
+                    autoRotateActive = true;
+                    startAutoRotate();
+                }
+            }, 500);
+        }
     });
     
     // Touch events
     mainEl.addEventListener('touchstart', (e) => {
         e.preventDefault();
         stopInertia();
+        stopAutoRotate();
+        autoRotateActive = false;
         draggingRef = true;
         movedRef = false;
         startRotRef = { ...rotationRef };
@@ -320,11 +390,32 @@ document.addEventListener("DOMContentLoaded", function() {
             const vx = clamp((dx / DEFAULTS.dragSensitivity) * 0.04, -2.0, 2.0);
             if (Math.abs(vx) > 0.005) {
                 startInertia(vx, 0);
+            } else {
+                // Resume auto-rotation after a short delay if no inertia
+                setTimeout(() => {
+                    if (!draggingRef && !inertiaRAF) {
+                        autoRotateActive = true;
+                        startAutoRotate();
+                    }
+                }, 500);
             }
+        } else {
+            // Resume auto-rotation if user tapped but didn't drag
+            setTimeout(() => {
+                if (!draggingRef && !inertiaRAF) {
+                    autoRotateActive = true;
+                    startAutoRotate();
+                }
+            }, 500);
         }
         movedRef = false;
     });
     
     // Initial transform
     applyTransform(0, 0);
+    
+    // Start auto-rotation after a short delay
+    setTimeout(() => {
+        startAutoRotate();
+    }, 1000);
 });

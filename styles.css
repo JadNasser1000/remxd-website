@@ -350,7 +350,7 @@ h1, h2, h3 {
 }
 
 .hero-title {
-    font-size: 2.25rem !important;
+    font-size: 3rem !important;
     color: #ffffff !important;
     margin-bottom: 0.5rem !important;
     font-weight: 500 !important;
@@ -360,7 +360,7 @@ h1, h2, h3 {
         0 1px 2px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 1;
-    font-family: 'Playfair Display', serif !important;
+    font-family: 'Bebas Neue', 'Playfair Display', serif !important;
 }
 
 .hero-mission {
@@ -538,40 +538,90 @@ h1, h2, h3 {
 }
 
 /* Legal Pages */
+/* Override body/html constraints for legal pages */
+body:has(.legal-page) {
+    overflow: auto !important;
+    height: auto !important;
+    background-color: #f5f5f5 !important;
+}
+
+html:has(.legal-page) {
+    overflow: auto !important;
+    height: auto !important;
+}
+
+/* Navbar styling for legal pages */
+body:has(.legal-page) .navbar {
+    background-color: #000000;
+    border-bottom: none;
+}
+
+body:has(.legal-page) .logo {
+    color: #10e4ea !important;
+}
+
+body:has(.legal-page) .logo-image {
+    display: block !important;
+}
+
+body:has(.legal-page) .nav-links a {
+    color: #333333 !important;
+}
+
+body:has(.legal-page) .nav-links a:hover {
+    color: #10e4ea !important;
+}
+
+body:has(.legal-page) .footer {
+    background-color: #f5f5f5;
+    border-top: 1px solid #e0e0e0;
+}
+
+body:has(.legal-page) .footer-text,
+body:has(.legal-page) .footer-links a {
+    color: #333333 !important;
+}
+
+body:has(.legal-page) .footer-links a:hover {
+    color: #10e4ea !important;
+}
+
 .legal-page {
     padding: 8rem 2rem 4rem;
     min-height: 100vh;
-    background-color: #000000;
-    overflow-y: auto;
+    background-color: #f5f5f5;
 }
 
 .page-title {
-    font-size: 4.5rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    color: #ffffff;
+    font-size: 3rem;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    color: #000000;
+    font-weight: 600;
 }
 
 .last-updated {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 4rem;
-    font-size: 1.3rem;
+    text-align: left;
+    color: #666666;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 .legal-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #000000;
-    padding: 3rem;
-    border: 2px solid #ffffff;
+    max-width: 900px;
+    margin: 0;
+    background-color: transparent;
+    padding: 0;
+    border: none;
 }
 
 .legal-content h2 {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
-    color: #ffffff;
+    color: #000000;
+    font-weight: 600;
 }
 
 .legal-content h2:first-child {
@@ -579,17 +629,18 @@ h1, h2, h3 {
 }
 
 .legal-content h3 {
-    font-size: 2rem;
+    font-size: 1.35rem;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
-    color: #ffffff;
+    color: #000000;
+    font-weight: 600;
 }
 
 .legal-content p {
     margin-bottom: 1rem;
-    line-height: 1.8;
-    color: #ffffff;
-    font-size: 1.3rem;
+    line-height: 1.7;
+    color: #333333;
+    font-size: 1rem;
 }
 
 .legal-content ul {
@@ -600,18 +651,237 @@ h1, h2, h3 {
 .legal-content li {
     margin-bottom: 0.5rem;
     line-height: 1.7;
-    color: #ffffff;
-    font-size: 1.3rem;
+    color: #333333;
+    font-size: 1rem;
 }
 
 .legal-content a {
-    color: #ffffff;
+    color: #0066cc;
     text-decoration: underline;
-    transition: opacity 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .legal-content a:hover {
-    opacity: 0.7;
+    color: #004499;
+}
+
+.legal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    color: #333333;
+    font-size: 0.95rem;
+}
+
+.legal-content table th {
+    border: 1px solid #dddddd;
+    padding: 12px;
+    text-align: left;
+    background-color: #e8e8e8;
+    font-weight: 600;
+}
+
+.legal-content table td {
+    border: 1px solid #dddddd;
+    padding: 12px;
+}
+
+.legal-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+    color: #333333;
+}
+
+.legal-content ol li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.legal-content strong {
+    color: #000000;
+}
+
+/* Terms of Service specific styles - matching privacy page formatting */
+.legal-content [data-custom-class="body"] {
+    width: 100%;
+    max-width: 100%;
+}
+
+.legal-content .MsoNormal {
+    margin: 0;
+    padding: 0;
+}
+
+.legal-content [data-custom-class="title"] h1 {
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    color: #000000 !important;
+    font-family: 'Playfair Display', serif !important;
+}
+
+.legal-content [data-custom-class="subtitle"] {
+    margin-bottom: 2rem;
+    color: #666666 !important;
+    font-size: 1rem !important;
+}
+
+.legal-content [data-custom-class="heading_1"] h2 {
+    font-size: 1.75rem !important;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #000000 !important;
+    font-family: 'Playfair Display', serif !important;
+}
+
+.legal-content [data-custom-class="heading_1"] h2:first-of-type {
+    margin-top: 0;
+}
+
+.legal-content [data-custom-class="heading_2"] h3 {
+    font-size: 1.35rem !important;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #000000 !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 600;
+}
+
+.legal-content [data-custom-class="body_text"],
+.legal-content [data-custom-class="body_text"] span {
+    line-height: 1.7 !important;
+    margin-bottom: 1rem;
+    color: #333333 !important;
+    font-size: 1rem !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.legal-content [data-custom-class="body_text"] strong {
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+/* Contact section - force black text */
+.legal-content #contact ~ div[data-custom-class="body_text"] p,
+.legal-content #contact + div[data-custom-class="body_text"] p,
+.legal-content #contact ~ div p[style*="color: #000000"],
+.legal-content #contact ~ div p[style*="color:#000000"] {
+    color: #000000 !important;
+}
+
+.legal-content #contact ~ div[data-custom-class="body_text"] hr,
+.legal-content #contact + div[data-custom-class="body_text"] hr,
+.legal-content #contact ~ div hr[style*="border-top"] {
+    border-top-color: #000000 !important;
+    color: #000000 !important;
+}
+
+/* More specific override for contact info */
+.legal-content .MsoNormal[data-custom-class="body_text"] p,
+.legal-content #contact ~ .MsoNormal[data-custom-class="body_text"] p,
+.legal-content #contact ~ .MsoNormal p,
+.legal-content .contact-info p {
+    color: #000000 !important;
+}
+
+.legal-content #contact ~ .MsoNormal hr,
+.legal-content .contact-info hr {
+    border-top-color: #000000 !important;
+}
+
+.legal-content [data-custom-class="link"],
+.legal-content [data-custom-class="link"] a,
+.legal-content a[data-custom-class="link"] {
+    color: #0066cc !important;
+    font-size: 1rem !important;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.legal-content [data-custom-class="link"]:hover,
+.legal-content [data-custom-class="link"] a:hover,
+.legal-content a[data-custom-class="link"]:hover {
+    color: #004499 !important;
+}
+
+.legal-content ul,
+.legal-content ul[style] {
+    margin-bottom: 1.5rem !important;
+    padding-left: 2rem !important;
+    list-style-type: square;
+}
+
+.legal-content li,
+.legal-content li[data-custom-class="body_text"],
+.legal-content li span {
+    margin-bottom: 0.5rem !important;
+    line-height: 1.7 !important;
+    color: #333333 !important;
+    font-size: 1rem !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.legal-content ol {
+    margin-bottom: 1.5rem !important;
+    padding-left: 2rem !important;
+    color: #333333 !important;
+}
+
+.legal-content ol li {
+    margin-bottom: 0.5rem !important;
+    line-height: 1.7 !important;
+    font-size: 1rem !important;
+    color: #333333 !important;
+}
+
+.legal-content bdt {
+    display: inline;
+}
+
+/* Ensure bdt.question tags match surrounding text font */
+.legal-content bdt.question,
+.legal-content bdt[class*="question"] {
+    font-size: inherit !important;
+    font-family: inherit !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+}
+
+/* Override inline styles from Termly generator */
+.legal-content span[style*="font-size:11.0pt"],
+.legal-content span[style*="font-size: 11pt"],
+.legal-content span[style*="font-size: 15px"],
+.legal-content span[style*="font-size:14px"],
+.legal-content span[style*="font-size: 14px"] {
+    font-size: 1rem !important;
+    color: #333333 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.legal-content span[style*="color: rgb(89, 89, 89)"],
+.legal-content span[style*="color:#595959"] {
+    color: #333333 !important;
+}
+
+.legal-content span[style*="font-size: 19px"],
+.legal-content span[style*="font-size:19px"] {
+    font-size: 1.75rem !important;
+    color: #000000 !important;
+    font-family: 'Playfair Display', serif !important;
+}
+
+/* Table of contents links */
+.legal-content a[data-custom-class="link"] span,
+.legal-content a[data-custom-class="link"] span span {
+    color: #0066cc !important;
+    font-size: 1rem !important;
+}
+
+.legal-content a[data-custom-class="link"]:hover span,
+.legal-content a[data-custom-class="link"]:hover span span {
+    color: #004499 !important;
 }
 
 /* Responsive Design */
@@ -650,6 +920,7 @@ h1, h2, h3 {
 
     .page-title {
         font-size: 2rem;
+        text-align: left;
     }
 
     .footer-links {
