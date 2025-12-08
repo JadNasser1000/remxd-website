@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let inertiaRAF = null;
     let autoRotateRAF = null;
     let autoRotateActive = true;
+    let autoRotateTimeout = null;
     const AUTO_ROTATE_SPEED = 0.04; // Degrees per frame - adjust for speed (0.05 = very slow, 0.1 = slow, 0.2 = fast)
     
     const applyTransform = (xDeg, yDeg) => {
@@ -226,6 +227,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (autoRotateRAF) {
             cancelAnimationFrame(autoRotateRAF);
             autoRotateRAF = null;
+        }
+        if (autoRotateTimeout) {
+            clearTimeout(autoRotateTimeout);
+            autoRotateTimeout = null;
         }
     };
     
@@ -312,8 +317,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     mainEl.addEventListener('mouseup', (e) => {
-        if (!draggingRef) return;
+        // Check startPosRef instead of draggingRef to handle case where mouseleave
+        // set draggingRef to false but drag was still in progress
+        if (!startPosRef) return;
+        
         draggingRef = false;
+        // Cancel any pending auto-rotate timeout from mouseleave
+        stopAutoRotate();
+        
         if (movedRef) {
             const dx = e.clientX - startPosRef.x;
             // Only horizontal velocity, increased for longer spin
@@ -322,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 startInertia(vx, 0);
             } else {
                 // Resume auto-rotation after a short delay if no inertia
-                setTimeout(() => {
+                autoRotateTimeout = setTimeout(() => {
                     if (!draggingRef && !inertiaRAF) {
                         autoRotateActive = true;
                         startAutoRotate();
@@ -331,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } else {
             // Resume auto-rotation if user clicked but didn't drag
-            setTimeout(() => {
+            autoRotateTimeout = setTimeout(() => {
                 if (!draggingRef && !inertiaRAF) {
                     autoRotateActive = true;
                     startAutoRotate();
@@ -339,13 +350,20 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500);
         }
         movedRef = false;
+        startPosRef = null; // Clear startPosRef after handling mouseup
     });
     
     mainEl.addEventListener('mouseleave', () => {
-        if (draggingRef) {
+        if (draggingRef && startPosRef) {
+            // Set draggingRef = false to stop mousemove updates, but keep startPosRef
+            // so mouseup can still calculate inertia even if mouse left the element
             draggingRef = false;
-            // Resume auto-rotation after mouse leaves
-            setTimeout(() => {
+            // Schedule auto-rotate, but mouseup will cancel it if inertia starts
+            autoRotateTimeout = setTimeout(() => {
+                // Clear startPosRef if mouseup never fired (mouse released outside)
+                if (startPosRef) {
+                    startPosRef = null;
+                }
                 if (!draggingRef && !inertiaRAF) {
                     autoRotateActive = true;
                     startAutoRotate();
@@ -381,9 +399,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     mainEl.addEventListener('touchend', (e) => {
-        if (!draggingRef) return;
+        // Check startPosRef instead of draggingRef for consistency with mouseup fix
+        if (!startPosRef) return;
+        
         draggingRef = false;
-        if (movedRef && startPosRef) {
+        // Cancel any pending auto-rotate timeout
+        stopAutoRotate();
+        
+        if (movedRef) {
             const touch = e.changedTouches[0];
             const dx = touch.clientX - startPosRef.x;
             // Only horizontal velocity, increased for longer spin
@@ -392,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 startInertia(vx, 0);
             } else {
                 // Resume auto-rotation after a short delay if no inertia
-                setTimeout(() => {
+                autoRotateTimeout = setTimeout(() => {
                     if (!draggingRef && !inertiaRAF) {
                         autoRotateActive = true;
                         startAutoRotate();
@@ -401,7 +424,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } else {
             // Resume auto-rotation if user tapped but didn't drag
-            setTimeout(() => {
+            autoRotateTimeout = setTimeout(() => {
                 if (!draggingRef && !inertiaRAF) {
                     autoRotateActive = true;
                     startAutoRotate();
@@ -409,6 +432,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500);
         }
         movedRef = false;
+        startPosRef = null; // Clear startPosRef after handling touchend
     });
     
     // Initial transform
